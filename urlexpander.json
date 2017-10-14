@@ -1,0 +1,114 @@
+{
+    "appid"       : "b155ef31-33e6-493b-ad5b-01f0f787e261",
+    "name"      : "URL Expander",
+    "description" : "Expands shortened URLs",
+    "publisher": "Robert Martin",
+    "package_name": "urlexpander",
+    "type": "information",
+    "license": "",
+    "main_module" : "urlexpander_connector.pyc",
+    "app_version": "1.0.0",
+    "utctime_updated": "2017-03-10T07:09:42.000000Z",
+    "product_vendor": "Generic",
+    "product_name": "URLexpander",
+    "product_version_regex": ".*",
+    "min_phantom_version": "1.2.236",
+    "logo": "urlexpander.png",
+    "configuration": {
+      "bitly_server": {
+        "description": "Bit.ly server IP/Hostname",
+        "order": 0,
+        "data_type": "string",
+        "required": true
+      },
+      "bitly_apikey": {
+        "data_type": "string",
+        "order": 1,
+        "description": "token",
+        "required": true
+      },
+      "googl_server": {
+        "description": "Goo.gl server IP/Hostname",
+        "order": 2,
+        "data_type": "string",
+        "required": true
+      },
+      "googl_apikey": {
+        "data_type": "string",
+        "order": 3,
+        "description": "token",
+        "required": true
+      }
+    },
+    "actions": [
+      {
+        "action": "test bit.ly connectivity",
+        "description": "Validate the asset configuration for connectivity.",
+        "type": "test",
+        "identifier": "test_bitly_connectivity",
+        "read_only": true,
+        "parameters": {
+        },
+        "output": [],
+        "versions":"EQ(*)"
+      },
+      {
+        "action": "test goo.gl connectivity",
+        "description": "Validate the asset configuration for connectivity.",
+        "type": "test",
+        "identifier": "test_googl_connectivity",
+        "read_only": true,
+        "parameters": {
+        },
+        "output": [],
+        "versions":"EQ(*)"
+      },
+      {
+        "action" : "expand url",
+        "description": "Expand bit.ly or goo.gl url",
+        "type": "investigate",
+        "identifier": "expand_url",
+        "read_only": true,
+        "parameters": {
+          "short URL": {
+            "description": "Shortened url",
+            "data_type": "string",
+            "contains": ["url"],
+            "primary": true,
+            "required": true
+          }
+        },
+        "render": {
+          "type": "table",
+          "width": 12,
+          "height": 5,
+          "title": "Url Details"
+        },
+        "output": [
+          {
+            "data_path": "action_result.status",
+            "data_type": "string"
+          },
+          {
+            "data_path": "action_result.summary",
+            "data_type": "string"
+          },
+          {
+            "data_path": "action_result.parameter.short URL",
+            "data_type": "string",
+            "contains": ["url"],
+            "column_name": "Short Url",
+            "column_order": 0
+          },
+          {
+            "data_path": "action_result.data.*.longUrl",
+            "data_type": "string",
+            "contains": ["url"],
+            "column_name": "Long Url",
+            "column_order": 1
+          }
+        ],
+        "versions":"EQ(*)"
+      }
+    ]
+}
