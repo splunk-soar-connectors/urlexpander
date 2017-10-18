@@ -123,8 +123,8 @@ class urlexpanderConnector(BaseConnector):
                     action_result.set_status(phantom.APP_SUCCESS)
 
             except Exception as e:
-                action_result.set_status(phantom.APP_ERROR, urlexpander_ERR_SERVER_CONNECTION, e)
-                action_result.append_to_message(urlexpander_ERR_CONNECTIVITY_TEST)
+                action_result.set_status(phantom.APP_ERROR, URLEXPANDER_ERR_SERVER_CONNECTION, e)
+                action_result.append_to_message(URLEXPANDER_ERR_CONNECTIVITY_TEST)
                 return action_result.get_status()
 
             data = response.json()
