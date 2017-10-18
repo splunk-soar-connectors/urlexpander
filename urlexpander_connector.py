@@ -128,10 +128,15 @@ class urlexpanderConnector(BaseConnector):
                 return action_result.get_status()
 
             data = response.json()
-            longUrl = data['longUrl']
-            results = {
-                "longUrl": longUrl
-            }
+            try:
+                longUrl = data['longUrl']
+                results = {
+                    "longUrl": longUrl,
+                    "raw": data
+                }
+            except Exception as e:
+                action_result.set_status(phantom.APP_ERROR, 'API Error', e)
+                results = {'raw': data}
             self.debug_print(results)
             action_result.add_data(results)
 
@@ -164,11 +169,16 @@ class urlexpanderConnector(BaseConnector):
 
             data = response.json()
             # self.debug_print('RES_DEBUG: {}'.format(data))
-            bitly_dict = data['data']['expand'][0]
-            longUrl = bitly_dict['long_url']
-            results = {
-                "longUrl": longUrl
-            }
+            try:
+                bitly_dict = data['data']['expand'][0]
+                longUrl = bitly_dict['long_url']
+                results = {
+                    "longUrl": longUrl,
+                    "raw": data
+                }
+            except Exception as e:
+                action_result.set_status(phantom.APP_ERROR, 'API Error', e)
+                results = {'raw': data}
             self.debug_print(results)
             action_result.add_data(results)
 
