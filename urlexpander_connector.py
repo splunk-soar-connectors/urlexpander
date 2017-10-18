@@ -32,7 +32,9 @@ class urlexpanderConnector(BaseConnector):
         # Call the BaseConnectors init first
         super(urlexpanderConnector, self).__init__()
 
-    def _test_googl_connectivity(self, param):
+    def _test_connectivity(self, param):
+
+        # goo.gl connectivity test
 
         config = self.get_config()
 
@@ -44,26 +46,23 @@ class urlexpanderConnector(BaseConnector):
             self.save_progress("Goo.gl server not set")
             return self.get_status()
 
-        self.save_progress("Querying a single server to check connectivity")
-
         # Progress
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, googl_server)
         # www.googleapis.com/urlshortener/v1/url?
         try:
-            r = requests.get('https://{}/urlshortener/v1/url?'.format(googl_server), params={'key': googl_apikey, 'shortUrl': 'http://goo.gl/fbsS'}, verify=False)
+            r = requests.get('https://{}/urlshortener/v1/url?'.format(googl_server), params={'key': googl_apikey, 'shortUrl': 'http://goo.gl/fbsS'}, verify=True)
             if r.status_code == 200:
+                self.save_progress(URLEXPANDER_SUCC_CONNECTIVITY_TEST)
                 self.set_status(phantom.APP_SUCCESS)
+            else:
+                self.set_status_save_progress(phantom.APP_ERROR, "Test failed: HTTPS Post returned code: {}".format(r.status_code))
 
         except Exception as e:
-            self.set_status(phantom.APP_ERROR, urlexpander_ERR_SERVER_CONNECTION, e)
-            self.append_to_message(urlexpander_ERR_CONNECTIVITY_TEST)
+            self.set_status(phantom.APP_ERROR, URLEXPANDER_ERR_SERVER_CONNECTION, e)
+            self.append_to_message(URLEXPANDER_ERR_CONNECTIVITY_TEST)
             return self.get_status()
 
-        return self.set_status_save_progress(phantom.APP_SUCCESS, urlexpander_SUCC_CONNECTIVITY_TEST)
-
-    def _test_bitly_connectivity(self, param):
-
-        config = self.get_config()
+        # bit.ly connectivity test
 
         # get the server and key data
         bitly_server = config.get(URLEXPANDER_JSON_BITLY_SERVER)
@@ -73,23 +72,23 @@ class urlexpanderConnector(BaseConnector):
             self.save_progress("Bit.ly server not set")
             return self.get_status()
 
-        self.save_progress("Querying a single server to check connectivity")
-
         # Progress
         self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, bitly_server)
         # api-ssl.bitly.com
 
         try:
-            r = requests.post('https://{}/v3/expand?'.format(bitly_server), data={'access_token': bitly_apikey, 'shortUrl': 'http://bit.ly/1RmnUT'}, verify=False)
+            r = requests.post('https://{}/v3/expand?'.format(bitly_server), data={'access_token': bitly_apikey, 'shortUrl': 'http://bit.ly/1RmnUT'}, verify=True)
             if r.status_code == 200:
-                self.set_status(phantom.APP_SUCCESS)
+                self.set_status(self.get_status())
+            else:
+                return self.set_status(phantom.APP_ERROR, "Test failed: HTTPS Post returned code: {}".format(r.status_code))
 
         except Exception as e:
-            self.set_status(phantom.APP_ERROR, urlexpander_ERR_SERVER_CONNECTION, e)
-            self.append_to_message(urlexpander_ERR_CONNECTIVITY_TEST)
+            self.set_status(phantom.APP_ERROR, URLEXPANDER_ERR_SERVER_CONNECTION, e)
+            self.append_to_message(URLEXPANDER_ERR_CONNECTIVITY_TEST)
             return self.get_status()
 
-        return self.set_status_save_progress(phantom.APP_SUCCESS, urlexpander_SUCC_CONNECTIVITY_TEST)
+        return self.set_status_save_progress(self.get_status(), URLEXPANDER_SUCC_CONNECTIVITY_TEST)
 
     def _expand_url(self, param):
 
@@ -119,7 +118,7 @@ class urlexpanderConnector(BaseConnector):
             self.save_progress(phantom.APP_PROG_CONNECTING_TO_ELLIPSES, server)
 
             try:
-                response = requests.get('https://{}/urlshortener/v1/url?'.format(server), params={'key': apikey, 'shortUrl': shortUrl}, verify=False)
+                response = requests.get('https://{}/urlshortener/v1/url?'.format(server), params={'key': apikey, 'shortUrl': shortUrl}, verify=True)
                 if response.status_code == 200:
                     action_result.set_status(phantom.APP_SUCCESS)
 
@@ -164,6 +163,7 @@ class urlexpanderConnector(BaseConnector):
                 return action_result.get_status()
 
             data = response.json()
+            # self.debug_print('RES_DEBUG: {}'.format(data))
             bitly_dict = data['data']['expand'][0]
             longUrl = bitly_dict['long_url']
             results = {
@@ -181,10 +181,8 @@ class urlexpanderConnector(BaseConnector):
 
         if (action == "expand_url"):
             ret_val = self._expand_url(param)
-        elif (action == "test_bitly_connectivity"):
-            ret_val = self._test_bitly_connectivity(param)
-        elif (action == "test_googl_connectivity"):
-            ret_val = self._test_googl_connectivity(param)
+        elif (action == "test_asset_connectivity"):
+            ret_val = self._test_connectivity(param)
 
         return ret_val
 
