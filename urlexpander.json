@@ -25,7 +25,7 @@
       "bitly_apikey": {
         "data_type": "password",
         "order": 1,
-        "description": "token",
+        "description": "Token",
         "required": true
       },
       "googl_server": {
@@ -38,7 +38,7 @@
       "googl_apikey": {
         "data_type": "password",
         "order": 3,
-        "description": "token",
+        "description": "Token",
         "required": true
       }
     },
@@ -54,7 +54,7 @@
       "versions": "EQ(*)"
       },
       {
-        "action" : "expand url",
+        "action" : "lookup url",
         "description": "Expand bit.ly or goo.gl url",
         "type": "investigate",
         "identifier": "expand_url",
