@@ -25,7 +25,7 @@
       "bitly_apikey": {
         "data_type": "password",
         "order": 1,
-        "description": "Token",
+        "description": "OAuth Token",
         "required": true
       },
       "googl_server": {
@@ -38,7 +38,7 @@
       "googl_apikey": {
         "data_type": "password",
         "order": 3,
-        "description": "Token",
+        "description": "API Key",
         "required": true
       }
     },
