@@ -7,7 +7,7 @@
     "type": "information",
     "license": "Freeware",
     "main_module" : "urlexpander_connector.pyc",
-    "app_version": "1.0.1",
+    "app_version": "1.0.2",
     "utctime_updated": "2017-10-17T07:09:42.000000Z",
     "product_vendor": "Generic",
     "product_name": "URLexpander",
@@ -25,7 +25,7 @@
       "bitly_apikey": {
         "data_type": "password",
         "order": 1,
-        "description": "Token",
+        "description": "OAuth Token",
         "required": true
       },
       "googl_server": {
@@ -38,7 +38,7 @@
       "googl_apikey": {
         "data_type": "password",
         "order": 3,
-        "description": "Token",
+        "description": "API Key",
         "required": true
       }
     },
