@@ -1,12 +1,12 @@
 {
-    "appid"       : "b155ef31-33e6-493b-ad5b-01f0f787e261",
-    "name"      : "URL Expander",
-    "description" : "Expands shortened URLs",
+    "appid": "b155ef31-33e6-493b-ad5b-01f0f787e261",
+    "name": "URL Expander",
+    "description": "Expands shortened URLs",
     "publisher": "Robert Martin",
     "package_name": "phantom_urlexpander",
     "type": "information",
     "license": "Freeware",
-    "main_module" : "urlexpander_connector.pyc",
+    "main_module": "urlexpander_connector.pyc",
     "app_version": "1.0.2",
     "utctime_updated": "2017-10-17T07:09:42.000000Z",
     "product_vendor": "Generic",
@@ -15,94 +15,132 @@
     "min_phantom_version": "3.0.251",
     "logo": "urlexpander.png",
     "configuration": {
-      "bitly_server": {
-        "description": "Bit.ly server IP/Hostname",
-        "order": 0,
-        "data_type": "string",
-        "default": "api-ssl.bitly.com",
-        "required": true
-      },
-      "bitly_apikey": {
-        "data_type": "password",
-        "order": 1,
-        "description": "OAuth Token",
-        "required": true
-      },
-      "googl_server": {
-        "description": "Goo.gl server IP/Hostname",
-        "order": 2,
-        "data_type": "string",
-        "default": "www.googleapis.com",
-        "required": true
-      },
-      "googl_apikey": {
-        "data_type": "password",
-        "order": 3,
-        "description": "API Key",
-        "required": true
-      }
+        "bitly_server": {
+            "description": "Bit.ly server IP/Hostname",
+            "order": 0,
+            "data_type": "string",
+            "default": "api-ssl.bitly.com",
+            "required": true
+        },
+        "bitly_apikey": {
+            "data_type": "password",
+            "order": 1,
+            "description": "OAuth Token",
+            "required": true
+        },
+        "googl_server": {
+            "description": "Goo.gl server IP/Hostname",
+            "order": 2,
+            "data_type": "string",
+            "default": "www.googleapis.com",
+            "required": true
+        },
+        "googl_apikey": {
+            "data_type": "password",
+            "order": 3,
+            "description": "API Key",
+            "required": true
+        }
     },
     "actions": [
-      {
-      "action": "test connectivity",
-      "description": "Validate the asset configuration for connectivity.",
-      "type": "test",
-      "identifier": "test_asset_connectivity",
-      "read_only": true,
-      "parameters": {},
-      "output": [],
-      "versions": "EQ(*)"
-      },
-      {
-        "action" : "lookup url",
-        "description": "Expand bit.ly or goo.gl url",
-        "type": "investigate",
-        "identifier": "expand_url",
-        "read_only": true,
-        "parameters": {
-          "short_url": {
-            "description": "Shortened url",
-            "data_type": "string",
-            "contains": ["url"],
-            "primary": true,
-            "required": true
-          }
+        {
+            "action": "test connectivity",
+            "description": "Validate the asset configuration for connectivity.",
+            "type": "test",
+            "identifier": "test_asset_connectivity",
+            "read_only": true,
+            "parameters": {},
+            "output": [],
+            "versions": "EQ(*)"
         },
-        "render": {
-          "type": "table",
-          "width": 12,
-          "height": 5,
-          "title": "Url Details"
-        },
-        "output": [
-          {
-            "data_path": "action_result.status",
-            "data_type": "string"
-          },
-          {
-            "data_path": "action_result.summary",
-            "data_type": "string"
-          },
-          {
-            "data_path": "action_result.message",
-            "data_type": "string"
-          },
-          {
-            "data_path": "action_result.parameter.short_url",
-            "data_type": "string",
-            "contains": ["url"],
-            "column_name": "Short Url",
-            "column_order": 0
-          },
-          {
-            "data_path": "action_result.data.*.longUrl",
-            "data_type": "string",
-            "contains": ["url"],
-            "column_name": "Long Url",
-            "column_order": 1
-          }
-        ],
-        "versions":"EQ(*)"
-      }
-    ]
+        {
+            "action": "lookup url",
+            "description": "Expand bit.ly or goo.gl url",
+            "type": "investigate",
+            "identifier": "expand_url",
+            "read_only": true,
+            "parameters": {
+                "short_url": {
+                    "description": "Shortened url",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "primary": true,
+                    "required": true
+                }
+            },
+            "render": {
+                "type": "table",
+                "width": 12,
+                "height": 5,
+                "title": "Url Details"
+            },
+            "output": [
+                {
+                    "data_path": "action_result.status",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.summary",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.parameter.short_url",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "Short Url",
+                    "column_order": 0
+                },
+                {
+                    "data_path": "action_result.data.*.longUrl",
+                    "data_type": "string",
+                    "contains": [
+                        "url"
+                    ],
+                    "column_name": "Long Url",
+                    "column_order": 1
+                }
+            ],
+            "versions": "EQ(*)"
+        }
+    ],
+    "pip_dependencies": {
+        "wheel": [
+            {
+                "module": "Django",
+                "input_file": "wheels/Django-1.11.29-py2.py3-none-any.whl"
+            },
+            {
+                "module": "certifi",
+                "input_file": "wheels/certifi-2021.10.8-py2.py3-none-any.whl"
+            },
+            {
+                "module": "chardet",
+                "input_file": "wheels/chardet-3.0.4-py2.py3-none-any.whl"
+            },
+            {
+                "module": "idna",
+                "input_file": "wheels/idna-2.10-py2.py3-none-any.whl"
+            },
+            {
+                "module": "pytz",
+                "input_file": "wheels/pytz-2021.3-py2.py3-none-any.whl"
+            },
+            {
+                "module": "requests",
+                "input_file": "wheels/requests-2.25.0-py2.py3-none-any.whl"
+            },
+            {
+                "module": "urllib3",
+                "input_file": "wheels/urllib3-1.26.7-py2.py3-none-any.whl"
+            }
+        ]
+    }
 }
