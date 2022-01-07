@@ -8,13 +8,6 @@ Version: 1.11.29
 License: BSD 3
 Copyright Django Software Foundation and individual contributors
 
-Library: simplejson
-Version: 3.17.2
-License: Academic 2.1
-License: MIT
-Copyright 2003-2004 Lawrence E
-Copyright 2006 Bob Ippolito
-
 Library: pudb
 Version: 2019.2
 License: MIT
@@ -24,3 +17,10 @@ Library: requests
 Version: 2.25.0
 License: Apache 2.0
 Kenneth Reitz
+
+Library: simplejson
+Version: 3.17.2
+License: Academic 2.1
+License: MIT
+Copyright 2003-2004 Lawrence E
+Copyright 2006 Bob Ippolito
